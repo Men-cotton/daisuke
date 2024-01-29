@@ -1,0 +1,563 @@
+\documentclass[twocolumn]{jsarticle}
+\usepackage{ascmac, amssymb, amsmath, mathtools, enumerate, physics, bm, comment}
+\usepackage[dvipdfmx]{graphicx, xcolor}
+\usepackage[top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{cd}
+\DeclarePairedDelimiterX\set[1]\lbrace\rbrace{\def\given{\;\delimsize\vert\;}#1}
+
+\title{代数系まとめ \\ 代数系の定義と『いつもの』}
+\author{@men\_cotton}
+\date{\today}
+\setlength{\columnseprule}{0.4pt}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\id}{\text{id}}
+\newcommand{\pr}{\text{pr}}
+\newcommand{\inv}[1]{#1^{-1}}
+\renewcommand{\phi}{\varphi}
+\newcommand{\iffdef}{\stackrel{\text{def}}{\iff}}
+\DeclareMathOperator{\Ima}{Im}
+\DeclareMathOperator{\Ker}{Ker}
+
+\tikzcdset{
+    arrow style=tikz,
+    diagrams={>={Straight Barb[scale=0.8]}}
+}
+
+\begin{document}
+\maketitle
+\part*{定義と例}
+\section{モノイド}
+\subsection{モノイドの定義}
+3-tuple \((M, \cdot, e) (ただし、\cdot\colon M \times M \to M,\, e \in M)\) であって、以下の条件を満たすもの。\\[-8mm]
+\begin{itemize}
+    \item 結合法則
+    \item 単位元の性質
+\end{itemize}
+\:\\[-16mm]
+
+\section{群}
+\subsection{群の定義 [1-p.20 2.1.1]}
+3-tuple \((G, \cdot, e) (ただし、\cdot\colon G \times G \to G,\, e \in G)\) であって、以下の条件を満たすもの。
+\begin{itemize}
+    \item \((G, \cdot, e)\) はモノイド
+    \item 逆元が任意の元に存在
+\end{itemize}
+
+\subsection{群の例}
+\subsubsection{環の加法は可換群 [1-p.21 2.1.4]}
+例：\(\Z, \mathbb{Q}, \R, \C\)
+
+環 \((R, +, \cdot, 0_R, 1_R)\) に対し、\((R, +, 0_R)\) は可換群。
+
+\subsubsection{乗法群 [1-p.21 2.1.5], [1-p.25 2.1.13]}
+例：\(\mathbb{Q}\setminus\set{0}, \R\setminus\set{0}, \C\setminus\set{0}, \mathrm{GL}_{n}(\C)\)
+
+環 \((R, +, \cdot, 0_R, 1_R)\) に対し、可逆元（単元）全体の集合\(R^{\cross}\)は、乗法に関して群となる。
+この\((R^{\cross}, \cdot, 1_R)\)を乗法群という。
+
+\subsubsection{\(n\) 次対称群 [1-p.24 2.1.11]}
+\(n\)次の置換全体からなる群 \(\mathfrak{S}_n\)
+
+\subsection{モノイドであって群ではない例}
+\subsubsection{\((\Z, \cdot, 1)\) は群でない [1-p.21 2.1.5]}
+逆元が必ずしも存在しないから。例えば、\(2n=1\)となる \(n\in\Z\) がない。
+\subsubsection{\((\set{0, 1}, \min, 1)\) は群でない [1-p.68 演習2.1.1]}
+逆元が必ずしも存在しないから。例えば、\(\min(x,0)=1\)となる \(x\in\set{0, 1}\) がない。
+\subsubsection{\((\R, (a,b) \mapsto a+b+ab, 0)\) は群でない [1-p.68 演習2.1.2]}
+逆元が必ずしも存在しないから。例えば、\(-1+b+(-1)b=0\)となる \(b\in\R\) がない。
+
+\section{環}
+\subsection{環の定義 [1-p.25 2.2.1]}
+5-tuple \((R, +, \cdot, 0_R, 1_R)\)（ただし、\({+},{\cdot}\colon R \times R \to R,\)\\ \(0_R, 1_R \in R\)） であって、以下の条件を満たすもの。
+\begin{itemize}
+    \item \((R, +, 0_R)\) は可換群
+    \item \((R, \cdot, 1_R)\) はモノイド
+    \item 分配法則
+\end{itemize}
+\subsection{環の例 [1-p.27 2.2.4], [2-p.5 1.2.1]}
+\(\Z, \mathbb{Q}, \R, \C\)
+
+\(\C[x] \quad(変数がxの複素係数多項式)\)
+\subsection{環であって可換環でない例 [1-p.27 2.2.4], [2-p.3 1.1.6]}
+\(\mathrm{M}_{n\geq2}(\R)\) (実数成分の正方行列)
+
+\(\mathbb{H}\) (4元数環、4元数体)
+
+\section{整域}
+\subsection{整域の定義 [2-p.6 1.2.5(1)]}
+\(
+\forall a \in R\setminus\set{0}, \forall b \in R\setminus\set{0}, ab \neq 0
+\)
+を満たす可換環\(R\)
+\subsection{可換環であって整域でない例 [2-p.6 1.2.7]}
+\(\Z/4\Z \quad(\because 2\cdot2\equiv 0 \pmod{4})\)
+
+\(\C[x]/(x^2)(\because x\cdot x\equiv 0 \pmod{x^2})\) （dual number の環という）
+
+\section{体}
+\subsection{体の定義}
+\begin{itemize}
+    \item 0で割る以外の除算ができる可換環 [1-p.27 2.2.5]
+    \item 非自明なイデアルを持たない可換環 [2-p.21 1.3.34]
+\end{itemize}
+\subsection{体の例 [1-p.27 2.2.7]}
+\(\mathbb{Q}, \R, \C\)
+
+\subsection{任意の体は整域 [2-p.6 1.2.6]}
+\(
+\forall a \in R\setminus\set{0},  ab = 0
+\)
+とする。
+
+\(ab=0 \implies \inv{a}ab = \inv{a}0 \implies b = 0\)
+の成立より、
+\(
+a \in R\setminus\set{0}, b \in R\setminus\set{0}, ab = 0
+\)
+なる \(a, b\) はない。
+
+\subsection{整域であって体でない例 [1-p.27 2.2.6]}
+\(\Z \quad (\because 0\neq1かつ2\neq0 なのに、1/2 \notin \Z)\)
+\newpage
+
+\section{環上の加群・線形空間}
+\subsection{体\(K\)上の線形空間の定義 [2-p.92 2.3.1]}
+4-tuple \((V, +, \cdot, 0_V) (ただし、+\colon V\times V \to V,\, \cdot\colon K \times V \to V,\, 0_V \in V)\) であって、以下の条件を満たすもの。\\[-8mm]
+\begin{itemize}
+    \item \((V, +, 0_V)\) が可換群
+    \item \((\lambda \mu) v = \lambda (\mu v)\) 
+    \item \(1_K v = v\)
+    \item \((\lambda + \mu)v = \lambda v + \mu v\)
+    \item \(\lambda(v+u)=\lambda v+ \lambda u\)
+\end{itemize}
+条件2,3は群の作用に対応している（体\(K\)の\(V\)への作用）。
+条件4,5は分配法則に対応している。
+
+\subsubsection{左\(R\)加群の定義}
+上の定義では体\(K\)を用いていたが、一般の非可換環\(R\)を用いて、\(\cdot\colon R\times V \to V\)だったら、左\(R\)加群である。右加群は\(\cdot\colon V\times R \to V\)となる。
+
+\(R\)が可換環の場合（特に体）、左でも右でも同じ。
+
+\subsection{環上の加群・線形空間の例}
+\subsubsection{\(\Z\)加群 [2-p.93 2.3.3]}
+\(2\Z, \Z/2\Z\) は、\(\Z\)加群である。
+\subsubsection{\(\C[x]\)加群}
+\(\C^n\) は、\(\C[x]\)加群である。ただし、\(A\in \text{M}_n(\C)\) で、
+\[
+\cdot\colon \C[x]\times C^n \to C^n, \bigl(f(x),v\bigr)\mapsto f(A)v
+\]
+である。
+\subsubsection{微分方程式の解空間}
+\begin{itemize}
+    \item \(f(x), g(x)\)が解ならば\(f(x)+g(x)\)も解である（加法について閉じている）
+    \item \(f(x)\)が解ならば\(a\cdot f(x) (a\in \R)\)も解である（実数倍について閉じている）
+\end{itemize}
+を満たすなら、その微分方程式の解の集合は、\(\R\)上の線形空間である。
+\subsubsection{体の準同型写像（特に、包含写像）[2-p.93 2.3.4(1)]}
+\(\tau\colon\F\to\F'\)を用いて、\(\cdot\colon\F\times\F'\to\F', (f,f')\mapsto\tau(f)f'\) とする。これによって\(\F'\)は\(\F\)上の線形空間となる。
+
+【確認】\((\F',+,0)\)は（体の加法なので）可換群である。また、
+\begin{align*}
+\tau(f_2)\tau(f_1)f'
+&=\tau(f_2f_1)f' \quad(\because 準同型) \\
+\tau(1_\F)f'
+&=1_{\F'}f' \quad(\because 準同型) \\
+&=f' \\
+\tau(f_2+f_1)f'
+&=(\tau(f_2)+\tau(f_1))f'\quad(\because 準同型) \\
+&=\tau(f_2)f'+\tau(f_1)f'\quad(\because \F'が環) \\
+\tau(f)(f'_1+f'_2)
+&=\tau(f)f'_1+\tau(f)f'_2 \quad(\because \F'が環)
+\end{align*}
+を満たす。
+
+\newpage
+
+\part*{式変形に関して}
+\setcounter{section}{0}
+\section{単位元の一意性 [1-p.23 2.1.10(1)]}
+モノイドにおいて、\(e = e \cdot e' = e'\)
+\section{逆元の一意性 [1-p.23 2.1.10(2)]}
+群において、\(b = b \cdot e = b \cdot (a \cdot b') = (b \cdot a) \cdot b' = e \cdot b' = b'\)
+\section{\(\inv{(\inv{a})}=a\) [1-p.23 2.1.10(4)]}
+\(a \cdot \inv{a} = 0 = \inv{a} \cdot a\) を、\(\inv{a}\) を主体に考える
+\section{\(a((bc)d)=(ab)(cd)\) [1-p.22 2.1.7]}
+結合法則より、カッコは要らない。
+\section{\(ab=ac \implies b = c\) [1-p.22 2.1.8(1)]}
+両辺に左から\(\inv{a}\)をかける。
+\section{\(ab=c \implies b = \inv{a}c,\, a = c\inv{b}\) [1-p.22 2.1.8(2)]}
+両辺に左から\(\inv{a}\)や\(\inv{b}\)をかける。
+\section{\(\inv{(ab)}=\inv{b}\inv{a}\) [1-p.23 2.1.10(3)]}
+\((ab)(\inv{b}\inv{a})=e=(\inv{b}\inv{a})(ab)\)
+
+\part*{部分代数系}
+\setcounter{section}{0}
+\section{部分代数系の定義 [1-p.29 2.3.1, 2.3.2]}
+「部分集合・演算の制限写像・単位元」であって、もとの構造を保っているもの。
+
+制限写像であるから、演算が閉じていることを確認すればよい（すなわち、積・和・invについて閉じているか）。
+
+\section{部分代数系の例}
+\subsection{環}
+\(\Z\subset\mathbb{Q}\subset\R\subset\C\subset\C[x]\)
+\subsection{可換群 [1-p.56 2.8.2]}
+\(gH=Hg\) を満たすため、必ず正規部分群である。
+
+\section{部分代数系\(H\subseteq G\) でも逆元は同じ [1-p.29 2.3.2(3)]}
+\(\forall x\in H, \exists y \in H, yx=e_H=xy\)。演算は制限写像であったから、\(yx=e_G=xy\)でもある。
+
+\newpage
+\part*{準同型・同型}
+\setcounter{section}{0}
+\section{群準同型写像の定義 [1-p.40 2.5.1(1)]}
+写像\(\phi\colon G_1 \to G_2\)であって、以下の条件を満たすもの。
+\begin{enumerate}
+    \item \(\phi(gg')=\phi(g)\phi(g')\)
+\end{enumerate}
+
+\section{群準同型写像は以下を満たす}
+\subsection{\(\phi(e_1)=e_2\) [1-p.41 2.5.3(1)]}
+\(\phi(e_1)=\phi(e_1e_1)=\phi(e_1)\phi(e_1)\)
+\subsection{\(\phi(\inv{g})=\inv{\phi(g)}\) [1-p.41 2.5.3(2)]}
+\(\phi(g)\phi(\inv{g})=\phi(g\inv{g})=\phi(e_1)=e_2\)
+
+\section{モノイド準同型写像の定義}
+写像\(\phi\colon S \to T\)であって、以下の条件を満たすもの。
+\begin{enumerate}
+    \item \(\phi(xy)=\phi(x)\phi(y)\)
+    \item \(\phi(1_S)=1_T\)
+\end{enumerate}
+\subsection{条件2 は必要}
+\(\phi\colon \Z \to \Z, x \mapsto 0\) は条件1を満たすが、2を満たさない。
+
+\section{恒等写像は準同型 [1-p.41 2.5.4]}
+\begin{itemize}
+    \item \(\id(xy)=xy=\id(x)\id(y)\)
+    \item \(\id(e)=e\)
+\end{itemize}
+
+\section{準同型写像の合成は準同型 [1-p.43 2.5.11(1)]}
+\begin{itemize}
+    \item \(g\circ f(xy)=g(f(x)\cdot f(y))=g\circ f(x)\cdot g\circ f(y)\)
+    \item \(g\circ f(e_R)=g(e_S)=e_T\)
+\end{itemize}
+
+\section{同型写像の定義 [1-p.40 2.5.1(2)]}
+準同型写像\(\phi\colon G_1 \to G_2\)であって、以下の条件を満たすもの。
+
+\(\exists \phi'\colon G_2 \to G_1, \phi'\circ\phi=\id_{G_1} かつ \phi\circ\phi'=\id_{G_2}\)
+\section{準同型写像が全単射なら同型 [1-p.41 2.5.2]}
+写像\(f\colon R\to S\)が全射かつ単射であるとき、逆写像をもつ。なぜなら、
+\begin{itemize}
+    \item 全射より、\(\forall x\in S, \inv{f}(\set{x}) \neq \emptyset\)
+    \item 単射より、\(\forall x\in S, |\inv{f}(\set{x})| \leq 1\)
+\end{itemize}
+であるため、\(x\in S\) と \(\inv{f}(x) \in T\) との間に1対1対応があるからである。
+
+逆写像\(g\coloneqq \inv{f}\) が準同型写像であることを示す。
+\begin{align*}
+g(xy)
+&=g(f\circ g(x) \cdot f\circ g(y)) \\
+&=g(f(g(x) \cdot g(y))) \\
+&=g\circ f(g(x) \cdot g(y)) \\
+&=g(x) \cdot g(y) \\
+g(e)&=e
+\end{align*}
+
+\section{同型は「同値関係」}
+\begin{itemize}
+    \item 「反射律」：\(\id\) は準同型であり、\(\id \circ \id = \id\) より、\(R\simeq R\)
+    \item 「対称律」：
+    \begin{align*}
+        & R\simeq S \\
+\implies& \exists\phi\colon R\to S, \exists\phi'\colon S\to R\\
+        &\phi'\circ\phi=\id_{R} かつ \phi\circ\phi'=\id_{S} \\
+\implies& S\simeq R\quad(\phi' を主体にみる)
+    \end{align*} 
+    \item 「推移律」：
+    \begin{align*}
+        & R\simeq S かつ S \simeq T \\
+\implies& \exists\phi\colon R\to S, \exists\phi'\colon S\to R\\                  & \exists\psi\colon S\to T, \exists\psi'\colon T\to S\\
+        &\phi'\circ\phi=\id_{R} かつ \phi\circ\phi'=\id_{S} \\
+        &\psi'\circ\psi=\id_{S} かつ \psi\circ\psi'=\id_{T} \\
+\implies& \exists\psi\circ\phi\colon R\to T, \exists\phi'\circ\psi'\colon T\to R\\       
+        &(\phi'\circ\psi')\circ(\psi\circ\phi)=\id_{R} かつ \\
+        &(\psi\circ\phi)\circ(\phi'\circ\psi')=\id_{T} \\
+\implies& R\simeq T
+    \end{align*} 
+\end{itemize}
+
+\section{自己同型写像は合成に関して群をなす
+（自己同型群 Aut\(G\)）[1-p.45 2.5.16]}
+\begin{itemize}
+    \item 閉じている：自己同型写像\(\phi, \psi\colon G\to G\)に対し、\(\psi\circ\phi\) は逆写像として \(\inv{\phi}\circ\inv{\psi}\) をもつ。これは準同型。
+    \item 結合法則：写像の結合法則による
+    \item 単位元：\(\id_G\) 
+    \item 逆元：同型写像の定義より、\(\phi\) が同型なら \(\inv{\phi}\) も同型。
+\end{itemize}
+
+\newpage
+
+\part*{核 \(\Ker\)・像 \(\Im\)}
+\setcounter{section}{0}
+\section{可換環の準同型写像 \(f\colon R \to R'\)}
+\subsection{\(\Im f\) は \(R'\) の部分環 [2-p.14 1.3.10の後]}
+加法が部分可換群
+\begin{itemize}
+    \item \(f(x)+f(y)=f(x+y) \in \Im f\)
+\end{itemize}
+
+乗法が部分モノイド
+\begin{itemize}
+    \item \(f(x)\cdot f(y)= f(x\cdot y) \in \Im f\) 
+    \item \(1_{R'} = f(1) \in \Im f\)
+\end{itemize}
+\subsection{\(\Ker f\) は \(R\) のイデアル [2-p.18 1.3.24]}
+\begin{itemize}
+    \item \(f(0_R)=0_S より、\Ker f \neq \emptyset\)
+    \item \(f(x+y)= f(x)+f(y) = 0+0=0 より、x+y \in \Ker f\)
+    \item \(f(ax)=f(a)\cdot f(x)=f(a)\cdot 0 = 0 より、ax \in \Ker f\)
+\end{itemize}
+\section{群の準同型写像 \(f\colon G \to G'\)}
+\subsection{\(\Im f\) は \(G'\) の部分群 [1-p.41 2.5.3(3)]}
+\begin{itemize}
+    \item \(f(x)\cdot f(y)= f(x\cdot y) \in \Im f\) 
+\end{itemize}
+\subsection{\(\Ker f\) は \(G\) の正規部分群 [1-p.56 2.8.3]}
+\(h\in \Ker f\)として、
+
+\(g'\in g(\Ker f) \iff \exists h, g' = gh \iff  \exists h, f(g') = f(g)f(h) \iff  \exists h, f(g') = f(h)f(g) \iff \cdots \iff g'\in (\Ker f)g\)
+\section{\(R\)加群の\(R\)準同型写像 \(f\colon V \to W\)}
+\subsection{\(\Im f\) は \(W\) の\(R\)部分加群 [2-p.150 演習2.4.2]}
+2.1 より、加法に関して部分群である。
+
+また、\(f\)の準同型性より\(rf(x)=f(rx)\)であり、作用に関して閉じている。
+\subsection{\(\Ker f\) は \(V\) の\(R\)部分加群 [2-p.150 演習2.4.2]}
+2.2 より、加法に関して部分群である。
+
+また、\(f\)の準同型性より\(f(x)=0\implies f(rx)=rf(x)=0\)であり、作用に関して閉じている。
+
+\section{\(f\colon G_1\to G_2\)が準同型のとき、\\ \(f\)が単射 \(\iff \Ker f = \set{e_1}\) [1-p.44 2.5.13]}
+\subsection{\(\implies\)}
+準同型なので、\(f(e_1)=e_2\)。単射性より、\(\Ker f = \set{e_1}\)。
+\subsection{\(\impliedby\)}
+対偶を示す。
+\begin{align*}
+& g\neq g' かつ f(g)=f(g') \\
+\implies& g\neq g' かつ f(g)f(\inv{g})=f(g')f(\inv{g}) \\
+\implies& g\neq g' かつ e_2=f(g'\inv{g}) \\
+\implies& \Ker f \neq {e_1}
+\end{align*}
+\newpage
+
+\part*{商}
+\setcounter{section}{0}
+\section{同値類の性質}
+\subsection{\(y \in [x] \implies [y] = [x]\) [1-p.48 2.6.8(2)]}
+\(z \in [y] \iff z \sim y,\quad z \in [x] \iff z \sim x\) である。ここで、
+\begin{align*}
+z \sim y
+&\implies z \sim y かつ y \sim x \quad(\because y \in [x]) \\
+&\implies z \sim x \\
+z \sim x
+&\implies z \sim x かつ x \sim y \quad(\because y \in [x]) \\
+&\implies z \sim y
+\end{align*}
+より、\(z \sim y \iff z \sim x\) であり、\([y] = [x]\)である。
+
+\subsection{\([x] \cap [y] \neq \emptyset \implies [x] = [y]\) [1-p.48 2.6.8(3)]}
+\:\\[-12mm]
+\begin{align*}
+[x] \cap [y] \neq \emptyset 
+&\implies \exists z, z \in [x] かつ z \in [y] \\
+&\implies \exists z, [x] = [z] かつ [y] = [z] \\
+&\implies [x] = [y]
+\end{align*}
+
+\section{部分群\(H\subseteq G\)に対し\(g \sim g' \iffdef \inv{g}g' \in H\) は同値関係 [1-p.48 2.6.6]}
+\subsection{例}
+\begin{itemize}
+    \item 可換環\(R\)、（両側）イデアル \(I\) に対し、\(-r'+r\in I\)
+    \item 可換群\(G\)、正規部分群 \(N\) に対し、\(\inv{g}g' \in N\)
+    \item \(R\)加群\(V\)、\(R\)部分加群\(W\) に対し、\(-v'+v\in W\)
+\end{itemize}
+\subsection{証明}
+\begin{itemize}
+    \item 反射律：\(\inv{x}x=e\in H\)より、\(x\sim x\)
+    \item 対称律：
+    \begin{align*}
+        x\sim y &\implies \inv{x}y \in H \implies \inv{(\inv{x}y)} \in H \\
+        &\implies \inv{y}x \in H \implies y \sim x
+    \end{align*} 
+    \item 推移律：
+    \begin{align*}
+        x\sim y かつ y \sim z &\implies \inv{x}y \in H かつ \inv{y}z \in H \\
+        &\implies (\inv{x}y)(\inv{y}z) \in H \\
+        &\implies \inv{x}z \in H \implies x \sim z
+    \end{align*} 
+\end{itemize}
+
+\section{群の同値類は \(C_g\) は、\(gH\) [1-p.52 2.6.17]}
+\subsection{証明}
+\;\\[-12mm]
+\begin{align*}
+g' \in C_g
+&\iff g \sim g' \iff g' \sim g \iff \inv{g'}g \in H \\
+&\iff \exists h \in H, \inv{g'}g = h \\
+&\iff \exists h \in H, g' = g\inv{h} \\
+&\iff \exists \Tilde{h} \in H, g' = g\Tilde{h} \quad(\Tilde{h}=\inv{h}, h = \inv{\Tilde{h}})\\
+&\iff g' \in gH
+\end{align*}
+\subsection{系}
+\begin{itemize}
+    \item 可換環 \(r\pmod I = r+I\)
+    \item 可換群 \(C_g = gN = Ng\)
+    \item \(R\)加群 \(v\pmod I = v+W\)
+\end{itemize}
+\newpage
+
+\section{商集合 \(X/{\sim}\)の普遍性}
+\begin{screen}
+任意の集合 \(Z\) と任意の写像 \(f\colon X \to Z\) について，
+\[\forall x_1, x_2 \in X, x_1 \sim x_2 \implies f(x_1) = f(x_2)\]
+ならば，\(f = \overline{f} \circ p\) となるただ 1 つの写像 \(\overline{f} \colon X/{\sim} \to Z\) が存在する。
+\[
+\begin{tikzcd}
+  X \ar[r, "p", two heads] \ar[rd, "f"'] & X/{\sim} \ar[d, "\textcolor{red}{\exists! \: \overline{f}}", dotted] \\
+  & Z
+\end{tikzcd}
+\]
+\end{screen}
+
+\subsection{証明}
+図式が可換になるようにするには、\(\forall x\in X, \overline{f}([x]) = f(x)\) でなければならないから、存在すればただ一つ。
+
+\([x]=[x'] \implies x\sim x' \implies f(x)=f(x')\)より、これはwell-defined。
+
+\subsection{系}
+\subsubsection{商環の普遍性（イデアル \(I\) による同値関係） [2-p.27 1.4.6]}
+任意の\textcolor{red}{可換環} \(Z\) と任意の\textcolor{red}{環準同型}写像 \(f \colon R \to Z\) について，
+\[\forall r_1, r_2 \in R, r_1 \equiv r_2\pmod I \implies f(r_1) = f(r_2)\]
+ならば，\(f = \overline{f} \circ p\) となるただ 1 つの\textcolor{red}{環準同型}写像 \(\overline{f} \colon R/I \to Z\) が存在する。
+\subsubsection{商群の普遍性（正規部分群 \(N\) による同値関係） [1-p.66 2.10.5]}
+任意の\textcolor{red}{群} \(Z\) と任意の\textcolor{red}{群準同型}写像 \(\phi \colon G \to Z\) について，
+\[\forall g_1, g_2 \in G, g_1 \sim g_2 \implies \phi(g_1) = \phi(g_2)\]
+ならば，\(\phi = \overline{\phi} \circ \pi\) となるただ 1 つの\textcolor{red}{群準同型}写像 \(\overline{\phi} \colon G/N \to Z\) が存在する。
+\subsubsection{商\(R\)加群の普遍性（\(R\)部分加群 \(W\) による同値関係）}
+任意の\textcolor{red}{R加群} \(Z\) と任意の\textcolor{red}{R準同型}写像 \(f \colon V \to Z\) について，
+\[\forall v_1, v_2 \in V, v_1 \equiv v_2\pmod W \implies f(v_1) = f(v_2)\]
+ならば，\(f = \overline{f} \circ p\) となるただ 1 つの\textcolor{red}{R準同型}写像 \(\overline{f} \colon V/W \to Z\) が存在する。
+\newpage
+
+\section{商集合の準同型定理}
+\begin{screen}
+集合 \(A, B\) と写像 \(h \colon A \to B\) について，
+\[a_1 \sim_h a_2 \iffdef h(a_1) = h(a_2)\]
+と定める。このとき、\(h=\overline{h}\circ p\)なる\(\overline{h}\) は単射である。
+
+ゆえに、\(\overline{h}\colon A/{\sim} \to \Im h\) は全単射。
+\[
+\begin{tikzcd}
+  A \ar[r, "p", two heads] \ar[rd, "h"'] & A/{\sim} \ar[d, red, "\textcolor{black}{\exists! \: \overline{h}}", hook] \\
+  & \Im h \subseteq B
+\end{tikzcd}
+\]
+\end{screen}
+
+\subsection{証明}
+普遍性より、\(\overline{h}([a]) = h(a)\)。
+
+\(\overline{h}([a]) = \overline{h}([a']) \implies h(a) = h(a') \textcolor{red}{\bm{\implies}} a\sim_h a' \implies [a] = [a']\) より、単射である（well-defined のときの議論を逆に辿れる）。
+
+\subsection{系（「準同型写像が全単射 \(\implies\) 同型」が有用）}
+\subsubsection{可換環の準同型定理 [2-p.25 1.4.3]}
+\(\overline{f} \colon R/\Ker f \to R'\) は単射であり、\(R/\Ker f \simeq \Im f\)
+
+（\(\Ker f\) は \(R\) のイデアルであった）
+\subsubsection{群の準同型定理 [1-p.63 2.10.1]}
+\(\overline{f} \colon G/\Ker f \to G'\) は単射であり、\(G/\Ker f \simeq \Im f\)
+
+（\(\Ker f\) は \(G\) の正規部分群であった）
+\subsubsection{\(R\)加群の準同型定理 [2-p.101 2.4.19(1)]}
+\(\overline{f} \colon V/\Ker f \to W\) は単射であり、\(V/\Ker f \simeq \Im f\)
+
+（\(\Ker f\) は \(V\) の\(R\)部分加群であった）
+
+\section{商集合の演算はwell-defined （例：商環）}
+\([x]=[x'] \iff x\equiv x'\pmod I\) より、\(a\equiv b\pmod I\)、\(c\equiv d\pmod I\) なる\((a,b,c,d)\)を考える。
+\subsection{加法 \(+\colon R/I\times R/I \to R/I,\, ([x],[y]) \mapsto [x+y]\)}
+\(a+c\equiv b+d\pmod I\)を示す。
+
+\(a-b, c-d \in I\) かつイデアルは加法に関して閉じているので、
+\((a+c)-(b+d)=(a-b)+(c-d)\in I\)である。
+\subsection{乗法 \(\times\colon R/I\times R/I \to R/I,\, ([x],[y]) \mapsto [x\cdot y]\)}
+\(a\cdot c\equiv b\cdot d\pmod I\)を示す。
+
+\(a-b, c-d \in I\) かつイデアルは加法・定数倍に関して閉じているので、
+\((a\times c)-(b\times d)=(a-b)\times c + b\times(c-d)\in I\)である。
+
+\section{商集合は代数系をなす}
+先ほどのwell-definedな演算に基づき、公理を確認
+
+\section{商集合への自然な射影 \(\pi\) は準同型}
+\begin{itemize}
+    \item \(\pi(xy)=[xy]=[x][y]=\pi(x)\pi(y)\)
+    \item \(\pi(e)=[e]\)
+\end{itemize}
+
+\newpage
+\part*{直積}
+\setcounter{section}{0}
+\section{直積集合は代数系をなす}
+公理を確認すればよい。
+\section{直積集合 \(X\times Y\) の普遍性}
+\begin{screen}
+任意の集合 \(Z\) と任意の写像 \(\alpha\colon Z \to X, \beta\colon Z \to Y\) について，
+\(\alpha = \pr_X \circ f\) かつ \(\beta = \pr_Y \circ f\) となるただ 1 つの写像 \(f \colon Z \to X\times Y\) が存在する。
+\[
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBoAGAXVJADcBDAGwFcYkQAtEAX1PU1z5CKMsWp0mrdgA0AOrLwBbeAAIAmjz4gM2PASLlSAJnEMWbRCGmb+uoUSPHTkiyA3dxMKAHN4RUABmAE4QikiGIDgQSGQgjFhgrlAQODheIDSM9ABGMIwACgJ6wiAJ2LAZEubs8jAAHlhwOHAAhPKIKgE2IMGhMTRRSI4gABYw9FDsOADuEGMTCDRmUpZoQQD61ryBIWGIsYOIAMw085OWM3PjUItVK9obGpk5eYV2+pZBWN4jON29ewih2Gy1c8iYaBG9EqWVyBSK9k+31+-124QG0WOSxcNVkuRw0I83CAA
+\begin{tikzcd}
+  & Z \arrow[d, "\textcolor{red}{\exists!\: f}" description, dotted] \arrow[ldd, "\alpha"'] \arrow[rdd, "\beta"] & \\
+  & X\times Y \arrow[ld, "\pr_X", two heads] \arrow[rd, "\pr_Y"', two heads] & \\
+X & & Y
+\end{tikzcd}
+\]
+\end{screen}
+
+\subsection{証明}
+図式が可換になるようにするには、\(\forall z\in Z, f(z) = (\alpha(z), \beta(z))\) でなければならないから、存在すればただ一つ。
+これは確かに存在する。
+
+\subsection{系}
+\subsubsection{直積環の普遍性 [2-p.102 2.4.24]}
+任意の\textcolor{red}{可換環} \(Z\) と任意の\textcolor{red}{環準同型}写像 \(\alpha\colon Z \to X, \beta\colon Z \to Y\) について，
+\(\alpha = \pr_X \circ f\) かつ \(\beta = \pr_Y \circ f\) となるただ 1 つの\textcolor{red}{環準同型}写像 \(f \colon Z \to X\times Y\) が存在する。
+\subsubsection{中国剰余定理 \((n=2)\) [2-p.32 1.6.2]}
+\(\pi_I\colon R \to R/I,\, \pi_J\colon R \to R/J\) はともに環準同型だから、普遍性より、\(f\colon R\to R/I\times R/J\) は環準同型。
+\[
+\begin{tikzcd}
+    & R \arrow[d, red, "\exists!\: f" description, dotted] \arrow[ldd, "\pi_I"', two heads] \arrow[rdd, "\pi_J", two heads] & \\
+    & R/I \times R/J \arrow[ld, "pr_I", two heads] \arrow[rd, "pr_J"', two heads] & \\
+R/I & & R/J
+\end{tikzcd}
+\]
+
+\(I\cap J = \Ker f\) である。
+加えて、\(I,J\)が互いに素であることより \(R/I \times R/J = \Im f\) である。
+
+よって、準同型定理より \(\overline{f}\colon R/(I\cap J) \to R/I \times R/J\) は全単射な環準同型写像であり、 \(R/(I\cap J) \simeq R/I \times R/J\) である。
+\[
+\begin{tikzcd}
+  R \ar[r, "p", two heads] \ar[rd, "f"', two heads] & R/(I\cap J) = R / \Ker f  \ar[d, "\textcolor{red}{\exists! \: \overline{f}}", dotted] \\
+  & \quad R/I \times R/J = \Im f\quad
+\end{tikzcd}
+\]
+
+\(I \cap J = IJ\) なので、\(R/IJ \simeq R/I \times R/J\)（中国剰余定理）である。
+
+\end{document}
